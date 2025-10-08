@@ -1,0 +1,36 @@
+# Node / Next.js
+node_modules/
+.next/
+.env.local
+.env.*.local
+.DS_Store
+.vscode/
+coverage/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.idea/
+/dist/
+build/
+
+# MacOS
+.DS_Store
+
+# logs
+logs
+*.log
+
+# Optional npm cache
+.npm
+
+# Local env files
+.env
+.env.local
+.env.*
+
+# Editor directories
+.vscode/
+.idea/
+
+# OS files
+Thumbs.db

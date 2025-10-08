@@ -28,10 +28,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     // if meta provided, set it atomically
     const update: any = { $push: { passwords: entry as any } };
     if (meta) update.$set = { meta };
-    const result = await users.findOneAndUpdate({ _id: user._id }, update as any, { returnDocument: 'after', upsert: true });
-    const updated = result.value;
-    const passwords = (Array.isArray(updated?.passwords) ? updated.passwords.map((p: any) => ({ id: p.id, blobB64: Buffer.from((p.data as any).buffer).toString('base64'), ivB64: p.ivB64, createdAt: p.createdAt })) : []);
-    const respMeta = { saltB64: updated?.meta?.saltB64, iterations: updated?.meta?.iterations };
+  const result = await users.findOneAndUpdate({ _id: user._id }, update as any, { returnDocument: 'after', upsert: true });
+  const updated = result.value ?? { passwords: [], meta: null };
+  const passwords = (Array.isArray(updated.passwords) ? updated.passwords.map((p: any) => ({ id: p.id, blobB64: Buffer.from((p.data as any).buffer).toString('base64'), ivB64: p.ivB64, createdAt: p.createdAt })) : []);
+  const respMeta = { saltB64: updated?.meta?.saltB64, iterations: updated?.meta?.iterations };
     return res.status(200).json({ ok: true, passwords, meta: respMeta });
   }
 
@@ -42,10 +42,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const id = (bodyId || queryId || '').toString();
     if (!id) return res.status(400).json({ error: 'missing' });
 
-    const result = await users.findOneAndUpdate({ _id: user._id }, { $pull: { passwords: { id } } } as any, { returnDocument: 'after' });
-    const updated = result.value;
-    const passwords = (Array.isArray(updated?.passwords) ? updated.passwords.map((p: any) => ({ id: p.id, blobB64: Buffer.from((p.data as any).buffer).toString('base64'), ivB64: p.ivB64, createdAt: p.createdAt })) : []);
-    const respMeta = { saltB64: updated?.meta?.saltB64, iterations: updated?.meta?.iterations };
+  const result = await users.findOneAndUpdate({ _id: user._id }, { $pull: { passwords: { id } } } as any, { returnDocument: 'after' });
+  const updated = result.value ?? { passwords: [], meta: null };
+  const passwords = (Array.isArray(updated.passwords) ? updated.passwords.map((p: any) => ({ id: p.id, blobB64: Buffer.from((p.data as any).buffer).toString('base64'), ivB64: p.ivB64, createdAt: p.createdAt })) : []);
+  const respMeta = { saltB64: updated?.meta?.saltB64, iterations: updated?.meta?.iterations };
     return res.status(200).json({ ok: true, passwords, meta: respMeta });
   }
 

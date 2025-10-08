@@ -51,3 +51,24 @@ Security note
 
 Support
 - If you want, I can add a GitHub Actions workflow to automatically build and push to Vercel or Docker Hub.
+
+Docker / Local containerized run
+
+1. Build and run with docker-compose (this will start Mongo and the app):
+
+```powershell
+docker compose up --build
+```
+
+2. Open http://localhost:3000
+
+3. To run only the app (connect to an external Mongo), build the image and run it with the MONGODB_URI env var:
+
+```powershell
+docker build -t passvault .
+docker run -e MONGODB_URI="mongodb://host.docker.internal:27017/passvault" -p 3000:3000 passvault
+```
+
+Notes
+- When deploying to a cloud host (Vercel, Railway, Render, etc.) make sure to set `MONGODB_URI` in the provider's environment settings.
+- This repo includes a `Dockerfile` and `docker-compose.yml` for easy local testing.

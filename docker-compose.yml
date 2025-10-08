@@ -1,0 +1,23 @@
+version: '3.8'
+services:
+  mongo:
+    image: mongo:6.0
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_DATABASE: passvault
+    volumes:
+      - mongo-data:/data/db
+    ports:
+      - '27017:27017'
+
+  web:
+    build: .
+    ports:
+      - '3000:3000'
+    environment:
+      - MONGODB_URI=mongodb://mongo:27017/passvault
+    depends_on:
+      - mongo
+
+volumes:
+  mongo-data:

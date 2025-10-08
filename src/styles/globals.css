@@ -1,0 +1,18 @@
+:root{--bg:#f8fafc;--card:#fff;--muted:#6b7280;--accent:#0ea5e9}
+html,body,#__next{height:100%}
+body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Arial;background:var(--bg);color:#0f172a}
+.app{max-width:1100px;margin:0 auto;padding:20px}
+.grid{display:grid;grid-template-columns:240px 1fr;gap:20px}
+.card{background:var(--card);border:1px solid #e6e9ee;border-radius:8px;padding:16px;box-shadow:0 6px 18px rgba(2,6,23,0.06)}
+input,textarea{width:100%;padding:8px;border:1px solid #e8eaf0;border-radius:6px}
+button{padding:8px 12px;border-radius:6px;border:1px solid #cbd5e1;background:#fff}
+.btn-primary{background:var(--accent);color:#fff;border:none}
+.row{display:flex;gap:8px;align-items:center}
+.card button{cursor:pointer}
+.card button[disabled]{opacity:0.6;cursor:not-allowed}
+.muted{color:var(--muted)}
+.vault-list{display:flex;flex-direction:column;gap:10px}
+.vault-item{padding:10px;border:1px solid #eef2f6;border-radius:6px;display:flex;justify-content:space-between;align-items:flex-start}
+
+/* toast */
+.toast{position:fixed;right:20px;top:20px;padding:10px;border-radius:6px}

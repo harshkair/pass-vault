@@ -18,8 +18,10 @@ export default function LoginPage(){
     setLoading(true);
     try{
       const res = await fetch('/api/auth/login',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({email,password})});
-      const j = await res.json();
-      if (j.error) return showError(j.error);
+      const text = await res.text();
+      if (!res.ok) return showError(text || res.statusText || 'Login failed');
+      const j = text ? JSON.parse(text) : {};
+      if ((j as any).error) return showError((j as any).error);
       if (!j.token) return showError('No token received');
       // store token & email in sessionStorage and navigate to app
       sessionStorage.setItem('pv_token', j.token);
@@ -35,8 +37,10 @@ export default function LoginPage(){
     setLoading(true);
     try{
       const res = await fetch('/api/auth/signup',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({email,password,meta:null})});
-      const j = await res.json();
-      if (j.error) return showError(j.error);
+      const text = await res.text();
+      if (!res.ok) return showError(text || res.statusText || 'Signup failed');
+      const j = text ? JSON.parse(text) : {};
+      if ((j as any).error) return showError((j as any).error);
       setToast({ type: 'info', message: 'Account created — please login' });
       setTimeout(()=>setToast(null),4000);
     }catch(err:any){
